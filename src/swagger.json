@@ -1,0 +1,204 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de manipulação de produtos",
+        "description": "Essa API tem como objetivo a manipulação dos produtos",
+        "termsOfService": "http://localhost:3000/terms",
+        "contact": {
+            "email": "leonardoviana00@hotmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/v1",
+            "description": "API em ambiente de homologação"
+        },
+        {
+            "url": "http://localhost.dev:3000/v1",
+            "description": "API em ambiente de desenvolvimento"  
+        },
+        {
+            "url": "http://localhost.prod:3000/v1",
+            "description": "API em ambiente de produção"
+        }
+    ],
+    "paths" : {
+        "/products" : {
+            "post" : {
+                "summary" : "Cadastro de produto",
+                "description" : "Essa rota será responsável por cadastrar um novo produto ",
+                "tags": ["Products"],
+                "security" : [{ "bearerAuth" : []}],
+                "requestBody" : {
+                    "content" : {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#/components/schemas/Product"
+                            },
+                            "examples" : {
+                                "product" : {
+                                    "value" : {
+                                        "name" : "Mouse USB",
+                                        "description" : "Mouse USB RGB",
+                                        "price" : "R$ 300,00"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "401" : {
+                        "description" : "Unauthorized"
+                    },
+                    "400" : {
+                        "description" : "Product Already exists!"
+                    },
+                    "200" : {
+                        "description" : "OK",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type" : "object",
+                                    "$ref" : "#components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/findByName" : {
+            "get" : {
+                "description" : "Busca de um produto pelo nome",
+                "summary" : "BUsca de um produto pelo nome",
+                "tags" : ["Products"],
+                "parameters" : [
+                    {
+                        "name" : "name",
+                        "in" : "query",
+                        "description" : "Nome do produto para busca ",
+                        "required" : true
+                    }
+                ],
+                "responses" : {
+                    "200" : {
+                        "description" : "OK",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "$ref" : "#components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}" : {
+            "get" : {
+                "description" : "Busca de um produto pelo Id",
+                "summary" : "Busca de um produto pelo Id",
+                "tags" : ["Products"],
+                "parameters" : [
+                    {
+                        "name" : "id",
+                        "in" : "path",
+                        "description" : "Nome do produto pelo ID ",
+                        "required" : true
+                    }
+                ],
+                "responses" : {
+                    "200" : {
+                        "description" : "OK",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type" : "object",
+                                    "$ref" : "#components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description" : "Alterar um produto pelo Id",
+                "summary" : "Alterar um um produto pelo Id",
+                "tags" : ["Products"],
+                "security" : [{ "bearerAuth" : []}],
+                "parameters" : [
+                    {
+                        "name" : "id",
+                        "in" : "path",
+                        "description" : "Nome do produto pelo ID ",
+                        "required" : true
+                    }
+                ],
+                "requestBody" : {
+                    "content" : {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#/components/schemas/Product"
+                            },
+                            "examples" : {
+                                "product" : {
+                                    "value" : {
+                                        "name" : "Mouse USB sem fio",
+                                        "description" : "Mouse USB RGB sem fio",
+                                        "price" : "R$ 350,00"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "200" : {
+                        "description" : "OK",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type" : "object",
+                                    "$ref" : "#components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components" : {
+        "schemas" : {
+            "Product" : {
+                "type" : "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string"
+                    },
+                    "decription" : {
+                        "type" : "string"
+                    },
+                    "price" : {
+                        "type" : "number"
+                    },
+                    "id" : {
+                        "type" : "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes" : {
+            "bearerAuth" : {
+                "type" : "http",
+                "scheme" : "bearer",
+                "bearerFormat" : "JWT"
+            }
+        }
+    }
+}
