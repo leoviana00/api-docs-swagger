@@ -53,25 +53,25 @@ $ yarn init -y
 
 - Typescript
 
-```console
+```bash
 $ yarn add typescript -D
 ```
 
 - Inicializando o `typescript`
 
-```console
+```bash
 $ yarn tsc --init
 ```
 
 - Converter o `typescript` para `javascript`
 
-```console
+```bash
 $ yarn tsc
 ```
 
 - Instalando o `express`
 
-```console
+```bash
 $ yarn add express
 $ yarn add @types/express -D
 ```
@@ -94,7 +94,7 @@ $ yarn add @types/swagger-ui-express -D
 
 - Instalação da biblioteca responsável pela conversão
 
-```console
+```bash
 $ yarn add ts-node-dev -D
 ```
 
